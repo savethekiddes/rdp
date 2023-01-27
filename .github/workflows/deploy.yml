@@ -1,0 +1,27 @@
+name: Windows Server VM with RDP
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Create Windows Virtual Desktop
+      uses: Azure/virtual-machines-windows-actions@v1
+      with:
+        vm-name: myvm
+        image: 'WindowsServer:2019-Datacenter:latest'
+        admin-username: myadmin
+        admin-password: mypassword
+        location: westus
+        size: Standard_DS2_v2
+
+    - name: Enable RDP
+      uses: Azure/virtual-machines-windows-actions@v1
+      with:
+        vm-name: myvm
+        enable-rdp: true
